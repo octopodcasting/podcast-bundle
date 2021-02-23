@@ -1,0 +1,21 @@
+{
+  "name": "octopodcasting/podcast-bundle",
+  "description": "Symfony bundle for podcasters",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tim Goudriaan",
+      "email": "tim@codedmonkey.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Octopod\\PodcastBundle\\": "source/"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "symfony/framework-bundle": "^4.4|^5.0"
+  }
+}
