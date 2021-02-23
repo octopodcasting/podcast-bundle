@@ -1,0 +1,17 @@
+<doctrine-mapping
+  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+  <mapped-superclass name="Octopod\PodcastBundle\Entity\Podcast">
+    <field name="title" column="title" type="string" length="1024" nullable="true"/>
+    <field name="link" column="link" type="text" nullable="true"/>
+    <field name="description" column="description" type="text" nullable="true"/>
+    <field name="author" column="author" type="string" length="1024" nullable="true"/>
+    <field name="image" column="image" type="text" nullable="true"/>
+    <field name="categories" column="categories" type="json" nullable="true"/>
+    <field name="explicit" column="explicit" type="boolean"/>
+    <field name="ownerName" column="owner_name" type="string" length="255" nullable="true"/>
+    <field name="ownerEmail" column="owner_email" type="string" length="255" nullable="true"/>
+  </mapped-superclass>
+</doctrine-mapping>

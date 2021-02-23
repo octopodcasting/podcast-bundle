@@ -1,0 +1,24 @@
+<doctrine-mapping
+  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+  <mapped-superclass name="Octopod\PodcastBundle\Entity\Episode">
+    <field name="guid" column="guid" type="text"/>
+    <field name="title" column="title" type="string" length="1024" nullable="true"/>
+    <field name="link" column="link" type="text" nullable="true"/>
+    <field name="description" column="description" type="text" nullable="true"/>
+    <field name="duration" column="duration" type="integer" nullable="true"/>
+    <field name="author" column="author" type="string" length="1024" nullable="true"/>
+    <field name="image" column="image" type="text" nullable="true"/>
+    <field name="explicit" column="explicit" type="boolean"/>
+    <field name="publishedAt" column="published_at" type="datetime" nullable="true"/>
+    <field name="enclosureUrl" column="enclosure_url" type="text" nullable="true"/>
+    <field name="enclosureLength" column="enclosure_length" type="integer" nullable="true"/>
+    <field name="enclosureType" column="enclosure_type" type="string" length="255" nullable="true"/>
+    <field name="chaptersUrl" column="chapters_url" type="text" nullable="true"/>
+    <field name="chaptersType" column="chapters_type" type="string" length="255" nullable="true"/>
+    <field name="transcriptUrl" column="transcript_url" type="text" nullable="true"/>
+    <field name="transcriptType" column="transcript_type" type="string" length="255" nullable="true"/>
+  </mapped-superclass>
+</doctrine-mapping>
