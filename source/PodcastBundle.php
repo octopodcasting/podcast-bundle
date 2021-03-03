@@ -13,10 +13,8 @@ class PodcastBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
-        $doctrineMappingPass = DoctrineOrmMappingsPass::createXmlMappingDriver([
+        $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver([
             realpath(__DIR__ . '/Resources/config/doctrine') => 'Octopod\PodcastBundle\Entity',
-        ]);
-
-        $container->addCompilerPass($doctrineMappingPass);
+        ]));
     }
 }

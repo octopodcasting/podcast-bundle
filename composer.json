@@ -16,9 +16,10 @@
   },
   "require": {
     "php": ">=7.2",
+    "doctrine/doctrine-bundle": "^2.2",
     "symfony/framework-bundle": "^4.4|^5.0"
   },
   "require-dev": {
-    "doctrine/doctrine-bundle": "^2.2"
+    "laminas/laminas-feed": "^2.13"
   }
 }
