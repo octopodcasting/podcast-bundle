@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "podcast": {
+      "css": [
+        "/bundles/podcast/podcast.17fa4577.css"
+      ],
+      "js": [
+        "/bundles/podcast/podcast.50e58722.js"
+      ]
+    }
+  }
+}

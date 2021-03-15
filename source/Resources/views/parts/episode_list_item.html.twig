@@ -1,0 +1,12 @@
+<div class="border-top p-3">
+  <h3>{{ episode.title }}</h3>
+  <div>
+    <span>{{ episode.publishedAt|date('F d, Y') }}</span>
+  </div>
+
+  <div class="my-3">
+    <octopod-player src="{{ episode.enclosureUrl }}"></octopod-player>
+  </div>
+
+  {{ episode.description|raw }}
+</div>

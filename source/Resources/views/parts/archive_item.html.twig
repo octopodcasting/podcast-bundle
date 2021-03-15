@@ -1,0 +1,6 @@
+<a href="{{ path('podcast_episode', {episode: episode.id}) }}" class="d-block border-top py-2">
+  <div class="d-flex justify-content-between">
+    <strong>{{ episode.title }}</strong>
+    <span>{{ episode.publishedAt|date('F d, Y') }}</span>
+  </div>
+</a>

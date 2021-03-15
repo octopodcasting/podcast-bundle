@@ -1,0 +1,42 @@
+{% extends '@Podcast/layout.html.twig' %}
+
+{% block content %}
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-4">
+          <div class="p-5">
+            <img class="img-fluid" src="{{ podcast.image|default('https://placehold.it/800') }}" alt="{{ podcast.title }} Cover Art">
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="pe-5">
+            <h1>{{ podcast.title }}</h1>
+            <p class="lead">{{ podcast.description }}</p>
+            {% if podcast.author %}
+              <p>{{ podcast.author }}</p>
+            {% endif %}
+            <div class="btn btn-primary">Subscribe</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      {% for episode in episodes %}
+        {% include '@Podcast/parts/episode_list_item.html.twig' %}
+      {% endfor %}
+    </div>
+  </section>
+  <section>
+    <div class="d-flex justify-content-center">
+      {% if current_page > 1 %}
+        <a class="btn btn-light mx-3" href="{{ path('podcast_list', {page: current_page - 1}) }}">Newer episodes</a>
+      {% endif %}
+      {% if last_page > current_page %}
+        <a class="btn btn-light mx-3" href="{{ path('podcast_list', {page: current_page + 1}) }}">Older episodes</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

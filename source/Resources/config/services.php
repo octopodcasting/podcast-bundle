@@ -5,12 +5,14 @@
 
 use Doctrine\ORM\EntityRepository;
 use Octopod\PodcastBundle\Command\CrawlEpisodesCommand;
+use Octopod\PodcastBundle\Controller\PodcastController;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrineFlushEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrineMatchEpisodeListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrinePersistEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\MapCrawlingFieldsListener;
 use Octopod\PodcastBundle\Crawler\FeedCrawler;
 use Octopod\PodcastBundle\Crawler\PodcastindexCrawler;
+use Octopod\PodcastBundle\Provider\EpisodeProvider;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -27,6 +29,22 @@ return static function (ContainerConfigurator $container) {
             param('podcast.feed'),
         ])
         ->tag('console.command')
+    ;
+
+    $container->set(PodcastController::class)
+        ->public()
+        ->args([
+            service(EpisodeProvider::class),
+            service('podcast'),
+        ])
+        ->call('setContainer', [service('service_container')])
+        ->tag('controller.service_arguments')
+    ;
+
+    $container->set(EpisodeProvider::class)
+        ->args([
+            service('podcast.repository.episode'),
+        ])
     ;
 
     $container->set(FeedCrawler::class)
@@ -70,6 +88,10 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('kernel.event_listener', ['method' => 'onProcessEpisode', 'priority' => -4096])
         ->tag('kernel.event_listener', ['method' => 'onProcessPodcast', 'priority' => -4096])
+    ;
+
+    $container->set('podcast')
+        ->synthetic()
     ;
 
     $container->set('podcast.crawler')

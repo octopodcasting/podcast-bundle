@@ -1,0 +1,19 @@
+{
+  "name": "@octopodcasting/podcast-bundle",
+  "description": "Symfony bundle for podcasters.",
+  "license": "MIT",
+  "scripts": {
+    "serve": "encore dev-server",
+    "build": "encore dev",
+    "watch": "encore dev --watch",
+    "production": "encore production --progress",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@octopodcasting/player": "^0.2.1",
+    "@symfony/webpack-encore": "^1.1.2",
+    "bootstrap": "^5.0.0-beta2",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.0"
+  }
+}

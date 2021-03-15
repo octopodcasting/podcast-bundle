@@ -1,0 +1,15 @@
+{% extends '@Podcast/layout.html.twig' %}
+
+{% block content %}
+  <section>
+    <div class="container">
+      <div class="p-3">
+        <h2>Archive</h2>
+
+        {% for episode in episodes %}
+          {% include '@Podcast/parts/archive_item.html.twig' %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
