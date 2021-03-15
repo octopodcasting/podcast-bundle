@@ -61,7 +61,7 @@ class FeedCrawler implements CrawlerInterface
             $episode->setGuid($item->getId());
             $episode->setDescription($item->getDescription());
             $episode->setDuration($item->getDuration());
-            $episode->setAuthor($item->getAuthor());
+            $episode->setAuthor($item->getCastAuthor());
             $episode->setImage($item->getItunesImage());
             $episode->setExplicit($item->getExplicit() === 'yes');
             $episode->setPublishedAt($item->getDateCreated());
