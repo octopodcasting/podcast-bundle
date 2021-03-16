@@ -5,12 +5,12 @@
 
 namespace Octopod\PodcastBundle\DependencyInjection;
 
-use Octopod\PodcastBundle\Command\CrawlEpisodesCommand;
-use Octopod\PodcastBundle\Controller\PodcastController;
+use Octopod\PodcastBundle\Entity\Episode;
 use Octopod\PodcastBundle\Entity\Podcast;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
@@ -18,8 +18,8 @@ class PodcastExtension extends Extension
 {
     public function load(array $configurations, ContainerBuilder $container): void
     {
-        $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__) . '/Resources/config'));
-        $loader->load('services.php');
+        $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__) . '/Resources/config/services'));
+        $loader->load('crawler.php');
 
         $configuration = $this->processConfiguration($this->getConfiguration($configurations, $container), $configurations);
 
@@ -32,11 +32,14 @@ class PodcastExtension extends Extension
         }
 
         if (false === $configuration['enabled']) {
-            $container->removeDefinition(CrawlEpisodesCommand::class);
-            $container->removeDefinition(PodcastController::class);
-
             return;
         }
+
+        if (null === $configuration['classes']['episode']) {
+            throw new LogicException(sprintf('To use the podcast bundle, create an entity extending "%s" and set it as "podcast.classes.episode" configuration option.', Episode::class));
+        }
+
+        $loader->load('podcast.php');
 
         $podcastDefinition = new Definition(Podcast::class);
         $podcastDefinition->addMethodCall('setTitle', [$configuration['podcast']['title']]);

@@ -10,13 +10,14 @@ use Octopod\PodcastBundle\Crawler\EventListener\DoctrineFlushEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrineMatchEpisodeListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrinePersistEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\MapCrawlingFieldsListener;
-use Octopod\PodcastBundle\Crawler\FeedCrawler;
-use Octopod\PodcastBundle\Crawler\PodcastindexCrawler;
 use Octopod\PodcastBundle\Provider\EpisodeProvider;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+/**
+ * Services for applications using the bundle for a single podcast
+ */
 return static function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
@@ -45,21 +46,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('podcast.repository.episode'),
         ])
-    ;
-
-    $container->set(FeedCrawler::class)
-        ->args([
-            service('http_client'),
-            service('event_dispatcher'),
-        ])
-        ->tag('podcast.crawler')
-    ;
-
-    $container->set(PodcastindexCrawler::class)
-        ->args([
-            service('event_dispatcher'),
-        ])
-        ->tag('podcast.crawler')
     ;
 
     $container->set(DoctrineFlushEntitiesListener::class)
@@ -94,24 +80,10 @@ return static function (ContainerConfigurator $container) {
         ->synthetic()
     ;
 
-    $container->set('podcast.crawler')
-        ->synthetic()
-    ;
-
     $container->set('podcast.repository.episode', EntityRepository::class)
         ->factory([service('doctrine.orm.entity_manager'), 'getRepository'])
         ->args([
             param('podcast.classes.episode'),
         ])
     ;
-
-    $container->set('podcast.repository.podcast', EntityRepository::class)
-        ->factory([service('doctrine.orm.entity_manager'), 'getRepository'])
-        ->args([
-            param('podcast.classes.podcast'),
-        ])
-    ;
-
-    $container->alias('podcast.crawler.feed', FeedCrawler::class);
-    $container->alias('podcast.crawler.podcastindex', PodcastindexCrawler::class);
 };

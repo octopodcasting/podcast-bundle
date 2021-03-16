@@ -5,8 +5,6 @@
 
 namespace Octopod\PodcastBundle\DependencyInjection;
 
-use Octopod\PodcastBundle\Entity\Episode;
-use Octopod\PodcastBundle\Entity\Podcast;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -38,8 +36,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('classes')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('podcast')->defaultValue(Podcast::class)->end()
-                        ->scalarNode('episode')->defaultValue(Episode::class)->end()
+                        ->scalarNode('podcast')->defaultNull()->end()
+                        ->scalarNode('episode')->defaultNull()->end()
                     ->end()
                 ->end()
             ->end()
