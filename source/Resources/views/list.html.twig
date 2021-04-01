@@ -2,10 +2,10 @@
 
 {% block content %}
   <section>
-    <div class="container">
+    <div class="container my-3">
       <div class="row align-items-center">
         <div class="col-lg-4">
-          <div class="p-5">
+          <div class="pb-3 p-sm-3 p-md-5 p-lg-0">
             <img class="img-fluid" src="{{ podcast.image|default('https://placehold.it/800') }}" alt="{{ podcast.title }} Cover Art">
           </div>
         </div>
@@ -32,10 +32,10 @@
   <section>
     <div class="d-flex justify-content-center">
       {% if current_page > 1 %}
-        <a class="btn btn-light mx-3" href="{{ path('podcast_list', {page: current_page - 1}) }}">Newer episodes</a>
+        <a class="btn btn-light mx-2" href="{{ path('podcast_list', {page: current_page - 1}) }}">Newer episodes</a>
       {% endif %}
       {% if last_page > current_page %}
-        <a class="btn btn-light mx-3" href="{{ path('podcast_list', {page: current_page + 1}) }}">Older episodes</a>
+        <a class="btn btn-light mx-2" href="{{ path('podcast_list', {page: current_page + 1}) }}">Older episodes</a>
       {% endif %}
     </div>
   </section>

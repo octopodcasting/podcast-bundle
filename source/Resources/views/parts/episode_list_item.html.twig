@@ -1,5 +1,5 @@
-<div class="border-top p-3">
-  <h3>{{ episode.title }}</h3>
+<div class="border-top my-3 pt-3">
+  <a href="{{ path('podcast_episode', {episode: episode.id}) }}" class="h3 d-block text-dark text-decoration-none mb-2">{{ episode.title }}</a>
   <div>
     <span>{{ episode.publishedAt|date('F d, Y') }}</span>
   </div>

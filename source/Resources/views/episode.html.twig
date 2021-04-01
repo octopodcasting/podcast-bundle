@@ -1,20 +1,20 @@
 {% extends '@Podcast/layout.html.twig' %}
 
+{% block title %}{{ episode.title }}{% endblock %}
+
 {% block content %}
   <section>
-    <div class="container">
-      <div class="p-3">
-        <h2>{{ episode.title }}</h2>
-        <div>
-          <span>{{ episode.publishedAt|date('F d, Y') }}</span>
-        </div>
-
-        <div class="my-3">
-          <octopod-player src="{{ episode.enclosureUrl }}"></octopod-player>
-        </div>
-
-        {{ episode.description|raw }}
+    <div class="container my-3">
+      <h2>{{ episode.title }}</h2>
+      <div>
+        <span>{{ episode.publishedAt|date('F d, Y') }}</span>
       </div>
+
+      <div class="my-3">
+        <octopod-player src="{{ episode.enclosureUrl }}"></octopod-player>
+      </div>
+
+      {{ episode.description|raw }}
     </div>
   </section>
 {% endblock %}
