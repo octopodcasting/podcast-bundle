@@ -3,57 +3,55 @@
  * (c) Tim Goudriaan <tim@codedmonkey.com>
  */
 
-namespace Octopod\PodcastBundle\Crawler;
+namespace Octopod\PodcastBundle\Crawler\Adapter;
 
 use Laminas\Feed\Reader\Entry\Rss as RssEntry;
-use Laminas\Feed\Reader\Feed\Rss as RssFeed;
 use Laminas\Feed\Reader\Extension\Podcast\Entry as PodcastEntry;
 use Laminas\Feed\Reader\Extension\Podcast\Feed as PodcastFeed;
+use Laminas\Feed\Reader\Feed\Rss as RssFeed;
 use Laminas\Feed\Reader\Reader;
-use Octopod\PodcastBundle\Crawler\Event\PostProcessEvent;
-use Octopod\PodcastBundle\Crawler\Event\ProcessEpisodeEvent;
 use Octopod\PodcastBundle\Entity\Episode;
+use Octopod\PodcastBundle\Entity\Podcast;
+use Octopod\PodcastBundle\Exception\LogicException;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class FeedCrawler implements CrawlerInterface
+class LaminasFeedAdapter implements CrawlerAdapterInterface
 {
     use LoggerAwareTrait;
 
     private $eventDispatcher;
     private $httpClient;
 
-    public function __construct(HttpClientInterface $httpClient, EventDispatcherInterface $eventDispatcher)
+    public function __construct(HttpClientInterface $httpClient)
     {
         if (!class_exists(Reader::class)) {
-            throw new \Exception('To crawl episodes directly from the RSS feed, install the "laminas/laminas-feed" package with Composer.');
+            throw new LogicException('To crawl episodes directly from the RSS feed, install the "laminas/laminas-feed" package with Composer.');
         }
 
         $this->httpClient = $httpClient;
-        $this->eventDispatcher = $eventDispatcher;
         $this->logger = new NullLogger();
     }
 
-    public function crawl(string $id): void
+    public function crawlMetadata(string $feed): Podcast
     {
-        throw new \Exception('Crawling podcast data with the FeedCrawler class hasn\'t been implemented.');
+        // TODO: Implement crawl() method.
     }
 
-    public function crawlEpisodes(string $id): void
+    public function crawlEpisodes(string $feed): array
     {
-        $response = $this->httpClient->request('GET', $id);
+        $rawResponse = $this->httpClient->request('GET', $feed);
 
-        /** @var RssFeed|PodcastFeed $feed */
-        $feed = Reader::importString($response->getContent());
+        /** @var RssFeed|PodcastFeed $response */
+        $response = Reader::importString($rawResponse->getContent());
 
         $episodes = [];
 
-        $this->logger->debug(sprintf('Found %s episodes', count($feed)));
+        $this->logger->debug(sprintf('Found %s episodes', count($response)));
 
         /** @var RssEntry|PodcastEntry $item */
-        foreach ($feed as $item) {
+        foreach ($response as $item) {
             $episode = new Episode();
 
             $episode->setTitle($item->getTitle());
@@ -72,14 +70,6 @@ class FeedCrawler implements CrawlerInterface
             $episodes[] = $episode;
         }
 
-        foreach ($episodes as $episode) {
-            $this->logger->debug(sprintf('Processing episode: %s', $episode->getGuid()));
-
-            $this->eventDispatcher->dispatch(new ProcessEpisodeEvent($episode));
-        }
-
-        $this->logger->debug('Post-processing...');
-
-        $this->eventDispatcher->dispatch(new PostProcessEvent());
+        return $episodes;
     }
 }

@@ -5,11 +5,10 @@
 
 namespace Octopod\PodcastBundle\Crawler;
 
+use Octopod\PodcastBundle\Message\CrawlingMessageInterface;
 use Psr\Log\LoggerAwareInterface;
 
 interface CrawlerInterface extends LoggerAwareInterface
 {
-    public function crawl(string $id): void;
-
-    public function crawlEpisodes(string $id): void;
+    public function execute(CrawlingMessageInterface $message): void;
 }

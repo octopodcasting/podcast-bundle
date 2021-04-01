@@ -10,6 +10,7 @@ use Octopod\PodcastBundle\Crawler\EventListener\DoctrineFlushEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrineMatchEpisodeListener;
 use Octopod\PodcastBundle\Crawler\EventListener\DoctrinePersistEntitiesListener;
 use Octopod\PodcastBundle\Crawler\EventListener\MapCrawlingFieldsListener;
+use Octopod\PodcastBundle\Crawler\PodcastCrawler;
 use Octopod\PodcastBundle\Provider\EpisodeProvider;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
@@ -26,7 +27,8 @@ return static function (ContainerConfigurator $container) {
     $container->set(CrawlEpisodesCommand::class)
         ->args([
             'podcast:crawl:episodes',
-            service('podcast.crawler'),
+            service(PodcastCrawler::class),
+            service('messenger.default_bus')->ignoreOnInvalid(),
             param('podcast.feed'),
         ])
         ->tag('console.command')
