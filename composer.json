@@ -17,9 +17,17 @@
   "require": {
     "php": ">=7.2",
     "doctrine/doctrine-bundle": "^2.2",
-    "symfony/framework-bundle": "^4.4|^5.0"
+    "psr/log": "^1.0",
+    "symfony/dependency-injection": "^4.4|^5.0",
+    "symfony/event-dispatcher": "^4.4|^5.0",
+    "symfony/framework-bundle": "^4.4|^5.0",
+    "symfony/http-client-contracts": "^2.0"
   },
   "require-dev": {
-    "laminas/laminas-feed": "^2.13"
+    "laminas/laminas-feed": "^2.13",
+    "symfony/console": "^4.4|^5.0",
+    "symfony/http-foundation": "^4.4|^5.0",
+    "symfony/messenger": "^4.4|^5.0",
+    "symfony/twig-bundle": "^4.4|^5.0"
   }
 }
