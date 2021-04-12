@@ -4,6 +4,8 @@
  */
 
 use Doctrine\ORM\EntityRepository;
+use Octopod\PodcastBundle\Command\CrawlEpisodesCommand;
+use Octopod\PodcastBundle\Crawler\PodcastCrawler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -14,6 +16,16 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
+    ;
+
+    $container->set(CrawlEpisodesCommand::class)
+        ->args([
+            'podcast:crawl:episodes',
+            service(PodcastCrawler::class),
+            service('messenger.default_bus')->ignoreOnInvalid(),
+            null,
+        ])
+        ->tag('console.command')
     ;
 
     $container->set('podcast.repository.episode', EntityRepository::class)

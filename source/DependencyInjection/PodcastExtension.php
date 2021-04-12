@@ -79,11 +79,21 @@ class PodcastExtension extends Extension
 
         $container->setParameter('podcast.feed', $configuration['feed']);
         $container->setParameter('podcast.classes.episode', $configuration['classes']['episode']);
-        $container->setParameter('podcast.classes.podcast', $configuration['classes']['podcast']);
     }
 
     private function registerVendorConfiguration(array $configuration, ContainerBuilder $container, PhpFileLoader $loader): void
     {
+        if (null === $configuration['classes']['episode'] || null === $configuration['classes']['podcast']) {
+            throw new LogicException('To use the podcast bundle in vendor mode, you need to set the "podcast.classes.episode" and "podcast.classes.podcast" configuration options.');
+        }
 
+        $loader->load('vendor.php');
+
+        if (false !== $this->messengerBusReference) {
+            $container->getDefinition(CrawlEpisodesCommand::class)->replaceArgument(2, $this->messengerBusReference);
+        }
+
+        $container->setParameter('podcast.classes.episode', $configuration['classes']['episode']);
+        $container->setParameter('podcast.classes.podcast', $configuration['classes']['podcast']);
     }
 }
