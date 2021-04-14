@@ -49,7 +49,7 @@ class PodcastCrawler implements CrawlerInterface
             foreach ($episodes as $episode) {
                 $this->logger->debug(sprintf('Processing episode: %s', $episode->getGuid()));
 
-                $this->eventDispatcher->dispatch(new ProcessEpisodeEvent($episode));
+                $this->eventDispatcher->dispatch(new ProcessEpisodeEvent($episode, $message->getFeed()));
             }
         } else {
             throw new LogicException(sprintf('The %s crawler is unable to handle messages of type %s.', self::class, get_class($message)));

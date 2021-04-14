@@ -5,7 +5,6 @@
 
 namespace Octopod\PodcastBundle\Crawler\EventListener;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Octopod\PodcastBundle\Crawler\Event\PostProcessEvent;
 

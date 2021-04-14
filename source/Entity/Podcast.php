@@ -8,6 +8,9 @@ namespace Octopod\PodcastBundle\Entity;
 class Podcast
 {
     /** @var string|null */
+    protected $feed;
+
+    /** @var string|null */
     protected $title;
 
     /** @var string|null */
@@ -33,6 +36,18 @@ class Podcast
 
     /** @var string|null */
     protected $ownerEmail;
+
+    public function getFeed(): ?string
+    {
+        return $this->feed;
+    }
+
+    public function setFeed(?string $feed): self
+    {
+        $this->feed = $feed;
+
+        return $this;
+    }
 
     public function getTitle(): ?string
     {
